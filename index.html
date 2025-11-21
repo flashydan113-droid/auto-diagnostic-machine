@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTO DIAGNOSTIC MACHINE - Complete Car Fault Detection & Solution System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #3498db;
+            --accent: #f39c12;
+            --success: #27ae60;
+            --warning: #f1c40f;
+            --danger: #c0392b;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --mechanical: #e74c3c;
+            --electrical: #3498db;
+            --engine: #f39c12;
+            --transmission: #9b59b6;
+            --brakes: #e67e22;
+            --suspension: #16a085;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2c3e50, #4a6572);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        .tech-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+            background-size: 100px 100px;
+            z-index: 0;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .developer-info {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .developer-name {
+            font-weight: bold;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .developer-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .credentials {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .contact-info {
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .badge {
+            background: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-top: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .diagnostic-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .system-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .system-btn {
+            padding: 20px 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .system-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .system-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px white, 0 0 0 6px var(--accent);
+        }
+        
+        .system-icon {
+            font-size: 2rem;
+        }
+        
+        .mechanical { background: linear-gradient(135deg, var(--mechanical), #ff6b6b); }
+        .electrical { background: linear-gradient(135deg, var(--electrical), #5dade2); }
+        .engine { background: linear-gradient(135deg, var(--engine), #f7dc6f); }
+        .transmission { background: linear-gradient(135deg, var(--transmission), #bb8fce); }
+        .brakes { background: linear-gradient(135deg, var(--brakes), #f0b27a); }
+        .suspension { background: linear-gradient(135deg, var(--suspension), #76d7c4); }
+        
+        .symptoms-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .symptoms-list {
+            list-style: none;
+        }
+        
+        .symptom-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 5px solid var(--secondary);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .symptom-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+        
+        .symptom-item.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .diagnosis-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .diagnosis-item {
+            padding: 16px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .diagnosis-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .solution {
+            display: none;
+            padding: 20px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 5px solid var(--accent);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .chatbot-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .chat-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .chat-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .chat-status {
+            color: var(--success);
+            font-size: 0.9rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            max-height: 500px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 18px;
+            max-width: 85%;
+            position: relative;
+            animation: messageAppear 0.3s ease;
+        }
+        
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bot-message {
+            background: rgba(52, 152, 219, 0.3);
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background: rgba(231, 76, 60, 0.3);
+            color: white;
+            border-bottom-right-radius: 5px;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            outline: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        
+        .chat-input input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .chat-input button {
+            padding: 15px 25px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+        
+        .chat-input button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .scanning-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .scanning-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .scan-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .scan-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .status-light {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: white;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .car-animation {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .car-icon {
+            font-size: 3rem;
+            color: var(--accent);
+            animation: drive 3s infinite alternate;
+        }
+        
+        @keyframes drive {
+            0% { transform: translateX(-50px); }
+            100% { transform: translateX(50px); }
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .system-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .system-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="tech-pattern"></div>
+            <h1>AUTO DIAGNOSTIC MACHINE</h1>
+            <p class="subtitle">Complete Car Fault Detection & Solution System</p>
+            <div class="developer-info">
+                <div class="developer-name">DANIEL OSEI ASARE</div>
+                <div class="developer-title">AiAfrica Intelligence Orchestrator & Automotive Systems Engineer</div>
+                <div class="credentials">Certified Automotive Diagnostic Specialist | AI-Powered Systems Developer | Multi-Brand Vehicle Expert</div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>0551 697 135</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>flashydan113@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Accra, Ghana</span>
+                    </div>
+                </div>
+                <div class="badge">PATENT PENDING - ADVANCED AI DIAGNOSTIC SYSTEM</div>
+            </div>
+        </header>
+        
+        <div class="car-animation">
+            <div class="car-icon">
+                <i class="fas fa-car-side"></i>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="diagnostic-panel">
+                <div class="system-section">
+                    <h2><i class="fas fa-cogs"></i> Select Vehicle System</h2>
+                    <div class="system-selector">
+                        <button class="system-btn mechanical active" data-system="engine">
+                            <i class="fas fa-engine system-icon"></i>
+                            <span>ENGINE SYSTEM</span>
+                        </button>
+                        <button class="system-btn electrical" data-system="electrical">
+                            <i class="fas fa-bolt system-icon"></i>
+                            <span>ELECTRICAL SYSTEM</span>
+                        </button>
+                        <button class="system-btn transmission" data-system="transmission">
+                            <i class="fas fa-cog system-icon"></i>
+                            <span>TRANSMISSION</span>
+                        </button>
+                        <button class="system-btn brakes" data-system="brakes">
+                            <i class="fas fa-tachometer-alt system-icon"></i>
+                            <span>BRAKE SYSTEM</span>
+                        </button>
+                        <button class="system-btn suspension" data-system="suspension">
+                            <i class="fas fa-car system-icon"></i>
+                            <span>SUSPENSION</span>
+                        </button>
+                        <button class="system-btn engine" data-system="fuel">
+                            <i class="fas fa-gas-pump system-icon"></i>
+                            <span>FUEL SYSTEM</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="symptoms-container">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Common Symptoms</h2>
+                    <ul class="symptoms-list" id="symptoms-list">
+                        <!-- Symptoms will be loaded here based on selected system -->
+                    </ul>
+                </div>
+                
+                <div class="diagnosis-container">
+                    <h2><i class="fas fa-stethoscope"></i> Diagnosis & Solutions</h2>
+                    <div id="diagnosis-results">
+                        <!-- Diagnosis will be loaded here based on selected symptom -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chatbot-panel">
+                <div class="chat-header">
+                    <div class="chat-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div>
+                        <div class="chat-title">Auto Diagnostic Assistant</div>
+                        <div class="chat-status"><i class="fas fa-circle"></i> Online - Ready to Diagnose</div>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message bot-message">
+                        <p>Welcome to the Advanced Auto Diagnostic System! I'm your AI-powered diagnostic assistant.</p>
+                        <p>Select a vehicle system and describe your car's symptoms, or ask me any automotive diagnostic question!</p>
+                        <div class="message-time">System Ready</div>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Describe your car problem or ask a diagnostic question...">
+                    <button id="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Diagnose</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scanning-section">
+            <h2><i class="fas fa-search"></i> Real-time System Scanning</h2>
+            <div class="status-indicator">
+                <div class="status-light"></div>
+                <span>SYSTEM SCANNING ACTIVE - MONITORING ALL VEHICLE SYSTEMS</span>
+            </div>
+            <div class="scanning-grid">
+                <div class="scan-card">
+                    <div class="scan-title">Engine Performance Scan</div>
+                    <p>Real-time monitoring of engine parameters, fuel efficiency, emission levels, and power output.</p>
+                </div>
+                <div class="scan-card">
+                    <div class="scan-title">Electrical System Analysis</div>
+                    <p>Comprehensive battery, alternator, starter motor, and electronic control unit diagnostics.</p>
+                </div>
+                <div class="scan-card">
+                    <div class="scan-title">Transmission Health Check</div>
+                    <p>Gear shifting performance, fluid condition, and transmission control module analysis.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI-Powered Diagnostics</h3>
+                <p>Advanced machine learning algorithms analyze symptoms and provide accurate fault detection across all vehicle makes and models</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Step-by-Step Solutions</h3>
+                <p>Detailed repair procedures, part replacements, and maintenance recommendations with estimated costs and difficulty levels</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Comprehensive Database</h3>
+                <p>Access to millions of repair scenarios, technical service bulletins, and manufacturer-specific diagnostic procedures</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Multi-Brand Compatibility</h3>
+                <p>Supports all major automotive brands including Toyota, Honda, Ford, BMW, Mercedes, and more with brand-specific protocols</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2023 ADVANCED AUTO DIAGNOSTIC MACHINE. All rights reserved.</p>
+            <p>Developed by Daniel Osei Asare - AiAfrica Intelligence Orchestrator | Automotive Diagnostic Specialist</p>
+            <p>Patent Pending Technology | Professional Grade Diagnostic System</p>
+        </footer>
+    </div>
+
+    <script>
+        // Comprehensive automotive diagnostic database
+        const diagnosticData = {
+            engine: {
+                "Engine won't start": [
+                    {
+                        cause: "Dead battery or poor connection",
+                        solution: "Check battery voltage (should be 12.6V). Clean terminal connections. Jump start or replace battery if voltage is below 12V.",
+                        difficulty: "Easy",
+                        cost: "Low",
+                        time: "15-30 minutes"
+                    },
+                    {
+                        cause: "Starter motor failure",
+                        solution: "Test starter motor. Listen for clicking sound when turning key. Replace starter motor if faulty.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Fuel system issue",
+                        solution: "Check fuel pump operation. Listen for humming sound when key is turned. Test fuel pressure. Replace fuel pump or filter if needed.",
+                        difficulty: "Medium",
+                        cost: "Medium-High",
+                        time: "1-3 hours"
+                    }
+                ],
+                "Engine misfires or runs rough": [
+                    {
+                        cause: "Faulty spark plugs or ignition coils",
+                        solution: "Inspect spark plugs for wear. Test ignition coils with multimeter. Replace worn components.",
+                        difficulty: "Easy-Medium",
+                        cost: "Low-Medium",
+                        time: "30-60 minutes"
+                    },
+                    {
+                        cause: "Clogged fuel injectors",
+                        solution: "Use fuel injector cleaner. For severe cases, remove and clean or replace injectors.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Vacuum leak",
+                        solution: "Inspect vacuum hoses for cracks. Use smoke machine to detect leaks. Replace damaged hoses.",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "30-60 minutes"
+                    }
+                ],
+                "Overheating engine": [
+                    {
+                        cause: "Low coolant level or leak",
+                        solution: "Check coolant level and inspect for leaks. Pressure test cooling system. Repair leaks and refill coolant.",
+                        difficulty: "Easy",
+                        cost: "Low",
+                        time: "30 minutes"
+                    },
+                    {
+                        cause: "Faulty thermostat",
+                        solution: "Test thermostat operation. Replace if stuck closed. Use OEM thermostat for best results.",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "1 hour"
+                    },
+                    {
+                        cause: "Water pump failure",
+                        solution: "Check for coolant leaks from water pump. Listen for bearing noise. Replace water pump and timing belt if applicable.",
+                        difficulty: "Hard",
+                        cost: "Medium-High",
+                        time: "2-4 hours"
+                    }
+                ]
+            },
+            electrical: {
+                "Battery keeps dying": [
+                    {
+                        cause: "Parasitic drain",
+                        solution: "Test for parasitic current draw with multimeter. Check common culprits: trunk lights, glove box lights, aftermarket accessories.",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Faulty alternator",
+                        solution: "Test alternator output (should be 13.5-14.5V with engine running). Replace alternator if output is low.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Old battery",
+                        solution: "Test battery health. Replace if older than 3-5 years or failing load test.",
+                        difficulty: "Easy",
+                        cost: "Medium",
+                        time: "15-30 minutes"
+                    }
+                ],
+                "Lights flickering or dim": [
+                    {
+                        cause: "Loose alternator belt",
+                        solution: "Check belt tension and condition. Tighten or replace belt as needed.",
+                        difficulty: "Easy",
+                        cost: "Low",
+                        time: "15-30 minutes"
+                    },
+                    {
+                        cause: "Bad ground connection",
+                        solution: "Clean and tighten battery ground and engine ground connections.",
+                        difficulty: "Easy",
+                        cost: "None",
+                        time: "15 minutes"
+                    },
+                    {
+                        cause: "Failing alternator",
+                        solution: "Test alternator output under load. Replace if voltage fluctuates significantly.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    }
+                ],
+                "Electrical components not working": [
+                    {
+                        cause: "Blown fuses",
+                        solution: "Check relevant fuses in fuse box. Replace any blown fuses with correct amperage.",
+                        difficulty: "Easy",
+                        cost: "Very Low",
+                        time: "10-15 minutes"
+                    },
+                    {
+                        cause: "Faulty relays",
+                        solution: "Test relays by swapping with known good ones. Replace faulty relays.",
+                        difficulty: "Easy",
+                        cost: "Low",
+                        time: "15 minutes"
+                    },
+                    {
+                        cause: "Wiring issues",
+                        solution: "Inspect wiring for damage. Check connectors for corrosion. Repair or replace damaged wiring.",
+                        difficulty: "Medium-Hard",
+                        cost: "Low-Medium",
+                        time: "1-3 hours"
+                    }
+                ]
+            },
+            transmission: {
+                "Transmission slipping": [
+                    {
+                        cause: "Low transmission fluid",
+                        solution: "Check fluid level and condition. Top up or change fluid if dirty/burnt.",
+                        difficulty: "Easy-Medium",
+                        cost: "Low-Medium",
+                        time: "30-60 minutes"
+                    },
+                    {
+                        cause: "Worn clutch (manual)",
+                        solution: "Test clutch engagement. Replace clutch kit if slipping under acceleration.",
+                        difficulty: "Hard",
+                        cost: "High",
+                        time: "3-6 hours"
+                    },
+                    {
+                        cause: "Internal transmission damage",
+                        solution: "Professional diagnosis needed. May require transmission rebuild or replacement.",
+                        difficulty: "Very Hard",
+                        cost: "Very High",
+                        time: "6+ hours"
+                    }
+                ],
+                "Hard shifting": [
+                    {
+                        cause: "Dirty transmission fluid",
+                        solution: "Change transmission fluid and filter. Use manufacturer-recommended fluid.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Faulty shift solenoids",
+                        solution: "Diagnose with scan tool. Replace faulty solenoids.",
+                        difficulty: "Medium-Hard",
+                        cost: "Medium",
+                        time: "2-3 hours"
+                    }
+                ],
+                "Transmission overheating": [
+                    {
+                        cause: "Clogged transmission cooler",
+                        solution: "Flush transmission cooler lines. Replace cooler if severely clogged.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Heavy towing or load",
+                        solution: "Install auxiliary transmission cooler. Avoid excessive loads.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    }
+                ]
+            },
+            brakes: {
+                "Brake pedal feels spongy": [
+                    {
+                        cause: "Air in brake lines",
+                        solution: "Bleed brake system to remove air. Check for leaks.",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "1 hour"
+                    },
+                    {
+                        cause: "Old brake fluid",
+                        solution: "Flush and replace brake fluid (every 2 years recommended).",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "1 hour"
+                    }
+                ],
+                "Brakes grinding noise": [
+                    {
+                        cause: "Worn brake pads",
+                        solution: "Replace brake pads immediately. Inspect and resurface or replace rotors.",
+                        difficulty: "Easy-Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Worn rotors",
+                        solution: "Replace brake rotors. Always replace in pairs.",
+                        difficulty: "Medium",
+                        cost: "Medium-High",
+                        time: "1-2 hours"
+                    }
+                ],
+                "Car pulls to one side when braking": [
+                    {
+                        cause: "Stuck brake caliper",
+                        solution: "Clean and lubricate caliper slides. Replace seized caliper.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1-2 hours"
+                    },
+                    {
+                        cause: "Contaminated brake fluid",
+                        solution: "Flush entire brake system with new fluid.",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "1 hour"
+                    }
+                ]
+            },
+            suspension: {
+                "Car bounces excessively": [
+                    {
+                        cause: "Worn shock absorbers",
+                        solution: "Replace shock absorbers in pairs. Consider upgrading to performance shocks.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "2-3 hours"
+                    },
+                    {
+                        cause: "Weak springs",
+                        solution: "Replace springs. Always replace in pairs.",
+                        difficulty: "Hard",
+                        cost: "Medium",
+                        time: "2-3 hours"
+                    }
+                ],
+                "Knocking noise over bumps": [
+                    {
+                        cause: "Worn ball joints",
+                        solution: "Inspect and replace worn ball joints. Get wheel alignment after replacement.",
+                        difficulty: "Hard",
+                        cost: "Medium",
+                        time: "2-3 hours"
+                    },
+                    {
+                        cause: "Bad sway bar links",
+                        solution: "Replace sway bar end links. Relatively inexpensive fix.",
+                        difficulty: "Medium",
+                        cost: "Low",
+                        time: "1 hour"
+                    }
+                ],
+                "Uneven tire wear": [
+                    {
+                        cause: "Poor wheel alignment",
+                        solution: "Perform complete wheel alignment. Check for worn suspension components.",
+                        difficulty: "Medium",
+                        cost: "Low-Medium",
+                        time: "1 hour"
+                    },
+                    {
+                        cause: "Worn suspension bushings",
+                        solution: "Replace worn control arm bushings or other suspension bushings.",
+                        difficulty: "Hard",
+                        cost: "Medium",
+                        time: "2-4 hours"
+                    }
+                ]
+            },
+            fuel: {
+                "Poor fuel economy": [
+                    {
+                        cause: "Dirty air filter",
+                        solution: "Replace air filter. Check every 15,000 miles.",
+                        difficulty: "Easy",
+                        cost: "Very Low",
+                        time: "10 minutes"
+                    },
+                    {
+                        cause: "Faulty oxygen sensors",
+                        solution: "Diagnose with scan tool. Replace faulty O2 sensors.",
+                        difficulty: "Medium",
+                        cost: "Medium",
+                        time: "1 hour"
+                    },
+                    {
+                        cause: "Clogged fuel injectors",
+                        solution: "Use fuel system cleaner. For severe cases, professional cleaning needed.",
+                        difficulty: "Medium",
+                        cost: "Low-Medium",
+                        time: "30 minutes-2 hours"
+                    }
+                ],
+                "Engine stalls or hesitates": [
+                    {
+                        cause: "Dirty fuel filter",
+                        solution: "Replace fuel filter (every 30,000 miles recommended).",
+                        difficulty: "Easy-Medium",
+                        cost: "Low",
+                        time: "30 minutes"
+                    },
+                    {
+                        cause: "Weak fuel pump",
+                        solution: "Test fuel pressure. Replace fuel pump if pressure is low.",
+                        difficulty: "Medium",
+                        cost: "Medium-High",
+                        time: "2-3 hours"
+                    }
+                ],
+                "Strong fuel smell": [
+                    {
+                        cause: "Fuel leak",
+                        solution: "Inspect fuel lines, connections, and fuel tank. Repair leaks immediately.",
+                        difficulty: "Medium-Hard",
+                        cost: "Low-Medium",
+                        time: "1-3 hours"
+                    },
+                    {
+                        cause: "Faulty EVAP system",
+                        solution: "Diagnose with scan tool. Common issues: bad purge valve, cracked hoses.",
+                        difficulty: "Medium",
+                        cost: "Low-Medium",
+                        time: "1-2 hours"
+                    }
+                ]
+            }
+        };
+
+        // DOM elements
+        const systemButtons = document.querySelectorAll('.system-btn');
+        const symptomsList = document.getElementById('symptoms-list');
+        const diagnosisResults = document.getElementById('diagnosis-results');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-btn');
+
+        let currentSystem = 'engine';
+        let currentSymptom = null;
+
+        // Event listeners for system buttons
+        systemButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                systemButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                currentSystem = button.getAttribute('data-system');
+                loadSymptoms(currentSystem);
+                
+                // Add system message to chat
+                addBotMessage(`Now diagnosing ${button.textContent.trim()} issues. Select a symptom or describe your problem.`);
+            });
+        });
+
+        // Function to load symptoms based on selected system
+        function loadSymptoms(system) {
+            symptomsList.innerHTML = '';
+            
+            if (diagnosticData[system]) {
+                for (const symptom in diagnosticData[system]) {
+                    const symptomItem = document.createElement('li');
+                    symptomItem.className = 'symptom-item';
+                    symptomItem.innerHTML = `
+                        <span>${symptom}</span>
+                        <i class="fas fa-chevron-right"></i>
+                    `;
+                    symptomItem.addEventListener('click', () => {
+                        // Remove active class from all symptoms
+                        document.querySelectorAll('.symptom-item').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        // Add active class to clicked symptom
+                        symptomItem.classList.add('active');
+                        
+                        currentSymptom = symptom;
+                        loadDiagnosis(system, symptom);
+                    });
+                    symptomsList.appendChild(symptomItem);
+                }
+            }
+        }
+
+        // Function to load diagnosis and solutions
+        function loadDiagnosis(system, symptom) {
+            diagnosisResults.innerHTML = `<h3>${symptom}</h3>`;
+            
+            if (diagnosticData[system] && diagnosticData[system][symptom]) {
+                diagnosticData[system][symptom].forEach((item, index) => {
+                    const diagnosisItem = document.createElement('div');
+                    diagnosisItem.className = 'diagnosis-item';
+                    diagnosisItem.innerHTML = `
+                        <strong>Possible Cause ${index + 1}:</strong> ${item.cause}
+                        <div class="solution" id="solution-${index}">
+                            <strong>Solution:</strong> ${item.solution}<br>
+                            <strong>Difficulty:</strong> ${item.difficulty} | 
+                            <strong>Estimated Cost:</strong> ${item.cost} | 
+                            <strong>Time Required:</strong> ${item.time}
+                        </div>
+                    `;
+                    
+                    diagnosisItem.addEventListener('click', () => {
+                        const solution = document.getElementById(`solution-${index}`);
+                        if (solution.style.display === 'block') {
+                            solution.style.display = 'none';
+                        } else {
+                            solution.style.display = 'block';
+                        }
+                    });
+                    
+                    diagnosisResults.appendChild(diagnosisItem);
+                });
+            }
+        }
+
+        // Function to add a bot message to the chat
+        function addBotMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.innerHTML = `
+                <p>${message}</p>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to add a user message to the chat
+        function addUserMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user-message';
+            messageDiv.innerHTML = `
+                <p>${message}</p>
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to get current time in HH:MM format
+        function getCurrentTime() {
+            const now = new Date();
+            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        // Function to process user input
+        function processUserInput() {
+            const message = userInput.value.trim();
+            if (message) {
+                addUserMessage(message);
+                userInput.value = '';
+                
+                // Simple response logic - in a real app, this would be more sophisticated
+                setTimeout(() => {
+                    let response = "I'm analyzing your vehicle issue... ";
+                    
+                    if (message.toLowerCase().includes('won\'t start') || message.toLowerCase().includes('not starting')) {
+                        response = "Based on your description, this could be a battery, starter, or fuel system issue. Check if lights come on when you turn the key. If yes, it's likely starter or fuel related. If no, check battery connections and charge.";
+                    } else if (message.toLowerCase().includes('noise') || message.toLowerCase().includes('sound')) {
+                        response = "Noises can indicate various issues. Grinding often means brakes, squealing could be belts, knocking might be suspension. Can you describe when and where the noise occurs?";
+                    } else if (message.toLowerCase().includes('overheat') || message.toLowerCase().includes('hot')) {
+                        response = "Overheating is serious. Check coolant level first. If low, look for leaks. Don't drive if overheating continues - this can cause engine damage.";
+                    } else if (message.toLowerCase().includes('brake') || message.toLowerCase().includes('stop')) {
+                        response = "Brake issues are critical for safety. Spongy pedal usually means air in lines, grinding indicates worn pads, pulling suggests caliper issues. I recommend immediate inspection.";
+                    } else if (message.toLowerCase().includes('transmission') || message.toLowerCase().includes('gear')) {
+                        response = "Transmission problems can be complex. Slipping often means low fluid or internal wear. Hard shifting might be solenoids or fluid issues. Check fluid level and condition first.";
+                    } else if (message.toLowerCase().includes('electrical') || message.toLowerCase().includes('battery')) {
+                        response = "Electrical issues often start with battery and alternator. Test battery voltage (should be 12.6V off, 13.5-14.5V running). If lights dim at idle, alternator may be failing.";
+                    } else {
+                        response = "I understand you're experiencing car trouble. To provide the most accurate diagnosis, could you tell me which system is affected (engine, brakes, electrical, etc.) and describe the symptoms in more detail?";
+                    }
+                    
+                    addBotMessage(response);
+                }, 1000);
+            }
+        }
+
+        // Event listeners for chat
+        sendButton.addEventListener('click', processUserInput);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                processUserInput();
+            }
+        });
+
+        // Initialize with engine system selected
+        loadSymptoms(currentSystem);
+    </script>
+</body>
+</html>
